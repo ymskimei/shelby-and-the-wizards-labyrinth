@@ -1,0 +1,332 @@
+[gd_scene load_steps=43 format=2]
+
+[ext_resource path="res://source/scripts/Room.gd" type="Script" id=1]
+[ext_resource path="res://source/scenes/platform_hazard.tscn" type="PackedScene" id=2]
+[ext_resource path="res://source/scenes/platform_safe.tscn" type="PackedScene" id=3]
+[ext_resource path="res://source/scripts/Player.gd" type="Script" id=4]
+[ext_resource path="res://assets/texture/room.png" type="Texture" id=5]
+[ext_resource path="res://assets/texture/snail_move.tres" type="Texture" id=6]
+[ext_resource path="res://assets/sound/music/level_3.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/sound/music/level_5.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/sound/music/level_4.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/sound/music/level_0.ogg" type="AudioStream" id=10]
+[ext_resource path="res://assets/sound/music/level_1.ogg" type="AudioStream" id=11]
+[ext_resource path="res://assets/snailybits.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://assets/sound/music/level_6.ogg" type="AudioStream" id=13]
+[ext_resource path="res://assets/sound/music/level_2.ogg" type="AudioStream" id=14]
+[ext_resource path="res://assets/texture/snail_idle.png" type="Texture" id=15]
+[ext_resource path="res://assets/texture/snail_jump.png" type="Texture" id=16]
+[ext_resource path="res://source/scripts/Interface.gd" type="Script" id=17]
+[ext_resource path="res://assets/texture/health_0.png" type="Texture" id=18]
+[ext_resource path="res://assets/texture/health_2.png" type="Texture" id=19]
+[ext_resource path="res://assets/texture/health_3.png" type="Texture" id=20]
+[ext_resource path="res://assets/texture/health_1.png" type="Texture" id=21]
+[ext_resource path="res://assets/sound/jump.ogg" type="AudioStream" id=22]
+[ext_resource path="res://assets/sound/hurt.ogg" type="AudioStream" id=23]
+[ext_resource path="res://assets/sound/death.ogg" type="AudioStream" id=24]
+[ext_resource path="res://assets/sound/success.ogg" type="AudioStream" id=25]
+[ext_resource path="res://assets/texture/room_dark.png" type="Texture" id=26]
+[ext_resource path="res://assets/texture/room_light.png" type="Texture" id=27]
+[ext_resource path="res://assets/sound/tick.ogg" type="AudioStream" id=28]
+[ext_resource path="res://assets/sound/darken.ogg" type="AudioStream" id=29]
+[ext_resource path="res://assets/texture/snail_death_3.png" type="Texture" id=30]
+[ext_resource path="res://assets/texture/snail_death_0.png" type="Texture" id=31]
+[ext_resource path="res://assets/texture/snail_death_2.png" type="Texture" id=32]
+[ext_resource path="res://assets/texture/snail_death_1.png" type="Texture" id=33]
+[ext_resource path="res://assets/texture/match_dark.png" type="Texture" id=34]
+[ext_resource path="res://assets/texture/match_lit.tres" type="Texture" id=35]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 128, 8 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8, 120 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 24, 8 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 12, 2 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 11
+font_data = ExtResource( 12 )
+
+[sub_resource type="AnimatedTexture" id=7]
+frames = 4
+fps = 12.0
+frame_0/texture = ExtResource( 31 )
+frame_1/texture = ExtResource( 33 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 32 )
+frame_2/delay_sec = 0.0
+frame_3/texture = ExtResource( 30 )
+frame_3/delay_sec = 0.0
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 8, 8 )
+
+[node name="Game" type="Node2D"]
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="Room" type="Node2D" parent="."]
+script = ExtResource( 1 )
+platform_safe = ExtResource( 3 )
+platform_hazard = ExtResource( 2 )
+room_light = ExtResource( 27 )
+room_dark = ExtResource( 26 )
+match_dark = ExtResource( 34 )
+match_lit = ExtResource( 35 )
+timer_tick = ExtResource( 28 )
+timer_darken = ExtResource( 29 )
+sound_death = ExtResource( 24 )
+sound_success = ExtResource( 25 )
+track_0 = ExtResource( 10 )
+track_1 = ExtResource( 11 )
+track_2 = ExtResource( 14 )
+track_3 = ExtResource( 7 )
+track_4 = ExtResource( 9 )
+track_5 = ExtResource( 8 )
+track_6 = ExtResource( 13 )
+
+[node name="Background" type="StaticBody2D" parent="Room"]
+collision_layer = 2
+
+[node name="TextureRect" type="TextureRect" parent="Room/Background"]
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Background"]
+position = Vector2( 129, 232 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Room/Background"]
+position = Vector2( 8, 120 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Room/Background"]
+position = Vector2( 248, 120 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Room/Background"]
+position = Vector2( 128, 56 )
+shape = SubResource( 4 )
+one_way_collision = true
+
+[node name="Area2D" type="Area2D" parent="Room/Background"]
+position = Vector2( 128, 46 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Background/Area2D"]
+shape = SubResource( 5 )
+
+[node name="Platforms" type="Node2D" parent="Room"]
+
+[node name="Position1A" type="Position2D" parent="Room/Platforms"]
+position = Vector2( 64, 184 )
+
+[node name="Position1B" type="Position2D" parent="Room/Platforms"]
+position = Vector2( 192, 184 )
+
+[node name="Position2A" type="Position2D" parent="Room/Platforms"]
+position = Vector2( 64, 136 )
+
+[node name="Position2B" type="Position2D" parent="Room/Platforms"]
+position = Vector2( 192, 136 )
+
+[node name="Position3A" type="Position2D" parent="Room/Platforms"]
+position = Vector2( 64, 88 )
+
+[node name="Position3B" type="Position2D" parent="Room/Platforms"]
+position = Vector2( 192, 88 )
+
+[node name="Interface" type="CanvasLayer" parent="Room"]
+script = ExtResource( 17 )
+health_0 = ExtResource( 18 )
+health_1 = ExtResource( 21 )
+health_2 = ExtResource( 19 )
+health_3 = ExtResource( 20 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Room/Interface"]
+anchor_left = 0.9
+anchor_right = 0.9
+margin_left = -32.0
+margin_right = 32.0
+margin_bottom = 240.0
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Room/Interface/MarginContainer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 58.0
+margin_bottom = 186.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Room/Interface/MarginContainer/VBoxContainer"]
+margin_right = 50.0
+margin_bottom = 16.0
+texture = ExtResource( 18 )
+
+[node name="Label9" type="Label" parent="Room/Interface/MarginContainer/VBoxContainer"]
+margin_top = 20.0
+margin_right = 40.0
+margin_bottom = 34.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+text = "-----"
+align = 1
+uppercase = true
+
+[node name="Label" type="Label" parent="Room/Interface/MarginContainer/VBoxContainer"]
+margin_top = 38.0
+margin_right = 45.0
+margin_bottom = 52.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+text = "Floor:"
+align = 1
+uppercase = true
+
+[node name="Label2" type="Label" parent="Room/Interface/MarginContainer/VBoxContainer"]
+margin_top = 56.0
+margin_right = 8.0
+margin_bottom = 70.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+text = "0"
+align = 1
+uppercase = true
+
+[node name="Label7" type="Label" parent="Room/Interface/MarginContainer/VBoxContainer"]
+margin_top = 74.0
+margin_right = 40.0
+margin_bottom = 88.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+text = "-----"
+align = 1
+uppercase = true
+
+[node name="Label3" type="Label" parent="Room/Interface/MarginContainer/VBoxContainer"]
+margin_top = 92.0
+margin_right = 38.0
+margin_bottom = 106.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+text = "Time:"
+align = 1
+uppercase = true
+
+[node name="Label4" type="Label" parent="Room/Interface/MarginContainer/VBoxContainer"]
+margin_top = 110.0
+margin_right = 50.0
+margin_bottom = 124.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+text = "0:00:00"
+align = 1
+uppercase = true
+
+[node name="Label6" type="Label" parent="Room/Interface/MarginContainer/VBoxContainer"]
+margin_top = 128.0
+margin_right = 40.0
+margin_bottom = 142.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+text = "-----"
+align = 1
+uppercase = true
+
+[node name="Label5" type="Label" parent="Room/Interface/MarginContainer/VBoxContainer"]
+margin_top = 146.0
+margin_right = 46.0
+margin_bottom = 160.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+text = "timer:"
+align = 1
+uppercase = true
+
+[node name="Label8" type="Label" parent="Room/Interface/MarginContainer/VBoxContainer"]
+margin_top = 164.0
+margin_right = 8.0
+margin_bottom = 178.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+text = "0"
+align = 1
+uppercase = true
+
+[node name="Player" type="KinematicBody2D" parent="Room"]
+position = Vector2( 128, 216 )
+collision_mask = 7
+script = ExtResource( 4 )
+snail_idle = ExtResource( 15 )
+snail_move = ExtResource( 6 )
+snail_jump = ExtResource( 16 )
+snail_death = SubResource( 7 )
+sound_jump = ExtResource( 22 )
+sound_hurt = ExtResource( 23 )
+
+[node name="Sprite" type="Sprite" parent="Room/Player"]
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Player"]
+shape = SubResource( 3 )
+
+[node name="Node2D" type="Node2D" parent="Room/Player"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Room/Player/Node2D"]
+position = Vector2( 8, 0 )
+enabled = true
+cast_to = Vector2( 0, 11 )
+collision_mask = 6
+
+[node name="RayCast2D2" type="RayCast2D" parent="Room/Player/Node2D"]
+position = Vector2( -8, 0 )
+enabled = true
+cast_to = Vector2( 0, 11 )
+collision_mask = 6
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Room/Player"]
+
+[node name="Sfx" type="AudioStreamPlayer2D" parent="Room"]
+position = Vector2( 128, 216 )
+
+[node name="Music" type="AudioStreamPlayer" parent="Room"]
+stream = ExtResource( 10 )
+
+[node name="Timer" type="AudioStreamPlayer" parent="Room"]
+stream = ExtResource( 10 )
+
+[node name="Matches" type="Node2D" parent="Room"]
+
+[node name="Sprite" type="Sprite" parent="Room/Matches"]
+position = Vector2( 216, 216 )
+texture = ExtResource( 35 )
+
+[node name="Sprite2" type="Sprite" parent="Room/Matches"]
+position = Vector2( 42, 216 )
+texture = ExtResource( 35 )
+flip_h = true
+
+[node name="ColorRect" type="ColorRect" parent="Room"]
+visible = false
+margin_right = 256.0
+margin_bottom = 240.0
+color = Color( 0, 0, 0, 1 )
+
+[connection signal="body_entered" from="Room/Background/Area2D" to="Room" method="_on_Area2D_body_entered"]
